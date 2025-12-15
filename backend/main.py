@@ -2,8 +2,12 @@
 from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
 import sys
-sys.path.append('..')
+
+# Add the project root directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from agent.agent import app as agent_app
 from agent.tool import get_financial_summary, get_historical_data, get_company_financials
 
@@ -107,7 +111,7 @@ async def analyze_stock(request: StockRequest):
         print(f"Error analyzing stock: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/health")
+@router.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
