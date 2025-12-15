@@ -25,21 +25,20 @@ function App() {
     setAnalysis(null);
 
     try {
-      // Use relative path for deployment, or fallback to localhost for local dev
-      const apiUrl =
-        process.env.NODE_ENV === "production"
-          ? "/api/analyze"
-          : "http://localhost:8000/analyze";
-      const response = await axios.post(apiUrl, {
+      const response = await axios.post("http://localhost:8000/analyze", {
         stock_name: stockName,
       });
       setAnalysis(response.data);
     } catch (error) {
       console.error("Error:", error);
-      setError(
-        error.response?.data?.detail ||
-          "Failed to analyze stock. Please check the stock name and try again."
-      );
+      let errorMessage = "Failed to analyze stock.";
+      if (error.response) {
+        // Include status code and detail if available
+        errorMessage = `Error ${error.response.status}: ${
+          error.response.data?.detail || error.message
+        }`;
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

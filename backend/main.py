@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
 import sys
+import traceback
 
 # Add the project root directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -109,11 +110,17 @@ async def analyze_stock(request: StockRequest):
         )
     except Exception as e:
         print(f"Error analyzing stock: {str(e)}")
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.get("/")
+async def root():
+    """Root endpoint to verify API is running"""
+    return {"message": "Stock Analysis API is running", "docs": "/docs"}
 
 # Include router for both root and /api prefix to handle Vercel routing
 app.include_router(router)
