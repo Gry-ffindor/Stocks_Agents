@@ -1,5 +1,6 @@
 from langchain_community.tools.tavily_search import TavilySearchResults
 import yfinance as yf
+import pandas as pd
 import os 
 from dotenv import load_dotenv
 
@@ -95,3 +96,25 @@ def get_historical_data(stock_name: str, period: str = "3mo"):
         })
 
     return candlestick_data
+
+def get_company_financials(stock_name: str):
+    """
+    Get comprehensive financial data including balance sheet, income statement, and cash flow.
+    """
+    stock = yf.Ticker(stock_name)
+    
+    def process_dataframe(df):
+        if df is None or df.empty:
+            return {}
+        
+        # Replace NaN with None for JSON compatibility
+        df = df.astype(object).where(pd.notnull(df), None)
+        
+        # Convert to dict with string dates as keys
+        return {k.strftime('%Y-%m-%d') if hasattr(k, 'strftime') else str(k): v for k, v in df.to_dict().items()}
+
+    return {
+        "income_statement": process_dataframe(stock.financials),
+        "balance_sheet": process_dataframe(stock.balance_sheet),
+        "cash_flow": process_dataframe(stock.cashflow)
+    }

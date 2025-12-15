@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import sys
 sys.path.append('..')
 from agent.agent import app as agent_app
-from agent.tool import get_financial_summary, get_historical_data
+from agent.tool import get_financial_summary, get_historical_data, get_company_financials
 
 
 app = FastAPI(title="Stock Analysis API")
@@ -29,6 +29,7 @@ class StockResponse(BaseModel):
     structured_analysis: dict | None = None
     data: dict
     historical_data: list = []
+    financials: dict = {}
 
 @app.post("/analyze", response_model=StockResponse)
 async def analyze_stock(request: StockRequest):
@@ -70,6 +71,13 @@ async def analyze_stock(request: StockRequest):
             print(f"Error fetching historical data: {str(e)}")
             historical_data = []
 
+        # Fetch company financials
+        try:
+            financials = get_company_financials(stock_symbol)
+        except Exception as e:
+            print(f"Error fetching financials: {str(e)}")
+            financials = {}
+
         # Parse structured analysis from JSON string
         structured_analysis = None
         analysis_text = 'No analysis available'
@@ -90,7 +98,8 @@ async def analyze_stock(request: StockRequest):
             analysis=analysis_text,
             structured_analysis=structured_analysis,
             data=market_data,
-            historical_data=historical_data
+            historical_data=historical_data,
+            financials=financials
         )
     except Exception as e:
         print(f"Error analyzing stock: {str(e)}")

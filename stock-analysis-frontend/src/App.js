@@ -9,6 +9,7 @@ import CandlestickChart from './components/CandlestickChart';
 import SentimentPanels from './components/SentimentPanels';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorMessage from './components/ErrorMessage';
+import FinancialsPanel from './components/FinancialsPanel';
 
 function App() {
   const [stockName, setStockName] = useState('');
@@ -77,6 +78,7 @@ function App() {
 
         {analysis && !loading && (
           <div className="results-container">
+            
             <StockSummary
               stockName={analysis.stock_name}
               stockSymbol={analysis.stock_symbol}
@@ -97,9 +99,12 @@ function App() {
               stockSymbol={analysis.stock_symbol}
             />
 
+            <FinancialsPanel financials={analysis.financials} />
+
             <SentimentPanels
               structuredAnalysis={analysis.structured_analysis}
             />
+
           </div>
         )}
       </main>

@@ -1,0 +1,90 @@
+.financials-panel {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.financials-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.financials-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.financials-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-button {
+  padding: 6px 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.tab-button:hover {
+  background: #f9fafb;
+}
+
+.tab-button.active {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #2563eb;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.financials-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.financials-table th,
+.financials-table td {
+  padding: 12px;
+  text-align: right;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.financials-table th {
+  font-weight: 600;
+  color: #4b5563;
+  background: #f9fafb;
+}
+
+.financials-table th.metric-col,
+.financials-table td.metric-name {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: inherit;
+  border-right: 1px solid #f3f4f6;
+  font-weight: 500;
+  color: #1f2937;
+  min-width: 200px;
+}
+
+.financials-table tr:hover td {
+  background-color: #f9fafb;
+}
