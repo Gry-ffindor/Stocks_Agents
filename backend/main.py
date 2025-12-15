@@ -1,0 +1,76 @@
+# backend/main.py
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import sys
+sys.path.append('..')
+from agent.agent import app as agent_app
+from agent.tool import get_financial_summary
+
+
+app = FastAPI(title="Stock Analysis API")
+
+# Enable CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class StockRequest(BaseModel):
+    stock_name: str
+
+class StockResponse(BaseModel):
+    stock_name: str
+    stock_symbol: str
+    analysis: str
+    data: dict
+
+@app.post("/analyze", response_model=StockResponse)
+async def analyze_stock(request: StockRequest):
+    """Analyze a stock using AI agent"""
+    try:
+        initial_state = {
+            "stock_name": request.stock_name,
+            "messages": []
+        }
+
+        result = agent_app.invoke(initial_state)
+
+        # Get the stock symbol from agent result
+        stock_symbol = result.get('stock_symobol', request.stock_name)
+
+        # Get financial data using yfinance
+        try:
+            financial_data = get_financial_summary(stock_symbol)
+            market_data = {
+                "current_price": financial_data.get('price', 'N/A'),
+                "market_cap": financial_data.get('market_cap', 'N/A'),
+                "pe_ratio": financial_data.get('PE_ratio', 'N/A'),
+                "52_week_high": financial_data.get('52_week_high', 'N/A'),
+                "52_week_low": financial_data.get('52_week_low', 'N/A'),
+                "dividend_yield": financial_data.get('dividend_yield', 'N/A'),
+            }
+        except Exception as e:
+            print(f"Error fetching financial data: {str(e)}")
+            market_data = {
+                "current_price": 'N/A',
+                "market_cap": 'N/A',
+                "pe_ratio": 'N/A'
+            }
+
+        return StockResponse(
+            stock_name=result.get('stock_name', request.stock_name),
+            stock_symbol=stock_symbol,
+            analysis=result.get('financial_analysis', 'No analysis available'),
+            data=market_data
+        )
+    except Exception as e:
+        print(f"Error analyzing stock: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
