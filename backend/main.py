@@ -1,5 +1,5 @@
 # backend/main.py
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sys
@@ -31,7 +31,9 @@ class StockResponse(BaseModel):
     historical_data: list = []
     financials: dict = {}
 
-@app.post("/analyze", response_model=StockResponse)
+router = APIRouter()
+
+@router.post("/analyze", response_model=StockResponse)
 async def analyze_stock(request: StockRequest):
     """Analyze a stock using AI agent"""
     try:
@@ -108,3 +110,7 @@ async def analyze_stock(request: StockRequest):
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+# Include router for both root and /api prefix to handle Vercel routing
+app.include_router(router)
+app.include_router(router, prefix="/api")
