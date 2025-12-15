@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar';
 import StockSummary from './components/StockSummary';
 import MarketDataCards from './components/MarketDataCards';
 import PriceTrendChart from './components/PriceTrendChart';
+import CandlestickChart from './components/CandlestickChart';
 import SentimentPanels from './components/SentimentPanels';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorMessage from './components/ErrorMessage';
@@ -89,6 +90,11 @@ function App() {
               currentPrice={analysis.data.current_price}
               weekHigh={analysis.data['52_week_high']}
               weekLow={analysis.data['52_week_low']}
+            />
+
+            <CandlestickChart
+              historicalData={analysis.historical_data}
+              stockSymbol={analysis.stock_symbol}
             />
 
             <SentimentPanels

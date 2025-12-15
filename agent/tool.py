@@ -35,13 +35,63 @@ def get_financial_summary(stock_name:str):
     Get the financial summary of the stock
     """
     stock = yf.Ticker(stock_name)
+    info = stock.info
+
+    # Get current price with fallback options
+    current_price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
+
+    # Get market cap with formatting
+    market_cap = info.get('marketCap')
+    if market_cap:
+        # Format market cap in crores for Indian stocks
+        market_cap = f"{market_cap / 10000000:.2f} Cr"
+
+    # Get PE ratio
+    pe_ratio = info.get('trailingPE') or info.get('forwardPE')
+    if pe_ratio:
+        pe_ratio = f"{pe_ratio:.2f}"
+
+    # Get dividend yield
+    dividend_yield = info.get('dividendYield')
+    if dividend_yield:
+        dividend_yield = f"{dividend_yield * 100:.2f}%"
+
     return {
         "stock_name": stock_name,
-        "price": stock.info.get('currentPrice'),
-        "change": stock.info.get('change'),
-        "market_cap": stock.info.get('MarketCap'),
-        "PE_ratio": stock.info.get('PE Ratio'),
-        "dividend_yield": stock.info.get('DividendYield'),
-        "52_week_high": stock.info.get('fiftyTwoWeekHigh'),
-        "52_week_low": stock.info.get('fiftyTwoWeekLow'),
+        "price": current_price,
+        "market_cap": market_cap,
+        "PE_ratio": pe_ratio,
+        "dividend_yield": dividend_yield,
+        "52_week_high": info.get('fiftyTwoWeekHigh'),
+        "52_week_low": info.get('fiftyTwoWeekLow'),
     }
+
+def get_historical_data(stock_name: str, period: str = "3mo"):
+    """
+    Get historical OHLC data for candlestick chart
+
+    Args:
+        stock_name: Stock symbol (e.g., "TCS.NS")
+        period: Time period ("1mo", "3mo", "6mo", "1y")
+
+    Returns:
+        List of dicts with date, open, high, low, close, volume
+    """
+    stock = yf.Ticker(stock_name)
+
+    # Fetch historical data with daily interval
+    hist = stock.history(period=period, interval="1d")
+
+    # Convert DataFrame to list of dictionaries
+    candlestick_data = []
+    for date, row in hist.iterrows():
+        candlestick_data.append({
+            "date": date.strftime("%Y-%m-%d"),
+            "open": round(row['Open'], 2),
+            "high": round(row['High'], 2),
+            "low": round(row['Low'], 2),
+            "close": round(row['Close'], 2),
+            "volume": int(row['Volume'])
+        })
+
+    return candlestick_data

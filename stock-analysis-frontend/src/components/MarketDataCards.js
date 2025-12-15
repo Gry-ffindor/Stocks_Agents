@@ -2,19 +2,31 @@ import React from 'react';
 import './MarketDataCards.css';
 
 function MarketDataCards({ data }) {
-  const cards = [
-    { label: 'Market Cap', value: data.market_cap, prefix: '₹', suffix: '' },
-    { label: 'P/E Ratio', value: data.pe_ratio, prefix: '', suffix: '' },
-    { label: '52W High', value: data['52_week_high'], prefix: '₹', suffix: '' },
-    { label: '52W Low', value: data['52_week_low'], prefix: '₹', suffix: '' },
-    { label: 'Dividend Yield', value: data.dividend_yield, prefix: '', suffix: '%' },
-  ];
+  const formatValue = (value, prefix = '', suffix = '') => {
+    if (!value || value === 'N/A' || value === null || value === undefined) {
+      return 'N/A';
+    }
 
-  const formatValue = (value) => {
-    if (!value || value === 'N/A') return 'N/A';
-    if (typeof value === 'number') return value.toLocaleString('en-IN');
+    // If already formatted as string (like "123.45 Cr" or "2.5%"), return as is
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    // If number, format with prefix/suffix
+    if (typeof value === 'number') {
+      return `${prefix}${value.toLocaleString('en-IN')}${suffix}`;
+    }
+
     return value;
   };
+
+  const cards = [
+    { label: 'Market Cap', value: formatValue(data.market_cap, '₹') },
+    { label: 'P/E Ratio', value: formatValue(data.pe_ratio) },
+    { label: '52W High', value: formatValue(data['52_week_high'], '₹') },
+    { label: '52W Low', value: formatValue(data['52_week_low'], '₹') },
+    { label: 'Dividend Yield', value: formatValue(data.dividend_yield) },
+  ];
 
   return (
     <div className="market-data-section">
@@ -23,11 +35,7 @@ function MarketDataCards({ data }) {
         {cards.map((card, index) => (
           <div className="data-card" key={index}>
             <div className="data-label">{card.label}</div>
-            <div className="data-value">
-              {card.prefix}
-              {formatValue(card.value)}
-              {card.value !== 'N/A' && card.suffix}
-            </div>
+            <div className="data-value">{card.value}</div>
           </div>
         ))}
       </div>

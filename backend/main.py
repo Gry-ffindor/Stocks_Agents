@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import sys
 sys.path.append('..')
 from agent.agent import app as agent_app
-from agent.tool import get_financial_summary
+from agent.tool import get_financial_summary, get_historical_data
 
 
 app = FastAPI(title="Stock Analysis API")
@@ -28,6 +28,7 @@ class StockResponse(BaseModel):
     analysis: str
     structured_analysis: dict | None = None
     data: dict
+    historical_data: list = []
 
 @app.post("/analyze", response_model=StockResponse)
 async def analyze_stock(request: StockRequest):
@@ -62,6 +63,13 @@ async def analyze_stock(request: StockRequest):
                 "pe_ratio": 'N/A'
             }
 
+        # Fetch historical data for candlestick chart (1 year for all filter options)
+        try:
+            historical_data = get_historical_data(stock_symbol, period="1y")
+        except Exception as e:
+            print(f"Error fetching historical data: {str(e)}")
+            historical_data = []
+
         # Parse structured analysis from JSON string
         structured_analysis = None
         analysis_text = 'No analysis available'
@@ -81,7 +89,8 @@ async def analyze_stock(request: StockRequest):
             stock_symbol=stock_symbol,
             analysis=analysis_text,
             structured_analysis=structured_analysis,
-            data=market_data
+            data=market_data,
+            historical_data=historical_data
         )
     except Exception as e:
         print(f"Error analyzing stock: {str(e)}")

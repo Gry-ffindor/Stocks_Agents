@@ -1,0 +1,110 @@
+.candlestick-chart-section {
+  margin-bottom: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+/* Chart Header with Filters */
+.chart-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.period-filters {
+  display: flex;
+  gap: 0.5rem;
+  background: #f9fafb;
+  padding: 0.25rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.period-button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.period-button:hover {
+  color: #374151;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.period-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Custom Tooltip Styling */
+.apexcharts-tooltip-custom {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-date {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tooltip-data {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.tooltip-data strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* ApexCharts Override - Match Design Theme */
+.apexcharts-menu {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.apexcharts-menu-item:hover {
+  background: #f9fafb !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .candlestick-chart-section {
+    padding: 1rem;
+  }
+
+  .chart-header {
+    justify-content: center;
+  }
+
+  .period-filters {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .period-button {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
