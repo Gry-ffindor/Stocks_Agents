@@ -1,0 +1,76 @@
+.stock-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  color: white;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.stock-title h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stock-symbol {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.stock-price {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.price-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.price-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.recommendation-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 640px) {
+  .stock-header {
+    flex-direction: column;
+  }
+
+  .stock-price {
+    text-align: left;
+  }
+
+  .stock-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .price-value {
+    font-size: 1.5rem;
+  }
+}

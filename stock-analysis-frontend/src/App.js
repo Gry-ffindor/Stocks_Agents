@@ -1,15 +1,27 @@
-// src/App.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import SearchBar from './components/SearchBar';
+import StockSummary from './components/StockSummary';
+import MarketDataCards from './components/MarketDataCards';
+import PriceTrendChart from './components/PriceTrendChart';
+import SentimentPanels from './components/SentimentPanels';
+import LoadingSpinner from './components/LoadingSpinner';
+import ErrorMessage from './components/ErrorMessage';
 
 function App() {
   const [stockName, setStockName] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const analyzeStock = async () => {
+    if (!stockName.trim()) return;
+
     setLoading(true);
+    setError(null);
+    setAnalysis(null);
+
     try {
       const response = await axios.post('http://localhost:8000/analyze', {
         stock_name: stockName
@@ -17,49 +29,78 @@ function App() {
       setAnalysis(response.data);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to analyze stock');
+      setError(
+        error.response?.data?.detail ||
+        'Failed to analyze stock. Please check the stock name and try again.'
+      );
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleRetry = () => {
+    setError(null);
+    analyzeStock();
   };
 
   return (
-    <div className="App">
-      <header>
-        <h1>📈 AI Stock Analysis</h1>
+    <div className="app">
+      <div className="app-background"></div>
+
+      <header className="app-header">
+        <h1 className="app-title">
+          <span className="title-icon">📊</span>
+          AI Stock Analysis
+        </h1>
+        <p className="app-subtitle">
+          Intelligent market insights powered by AI
+        </p>
       </header>
-      
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Enter stock name (e.g., Reliance, TCS)"
-          value={stockName}
-          onChange={(e) => setStockName(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && analyzeStock()}
+
+      <main className="app-content">
+        <SearchBar
+          stockName={stockName}
+          setStockName={setStockName}
+          onSearch={analyzeStock}
+          loading={loading}
         />
-        <button onClick={analyzeStock} disabled={loading}>
-          {loading ? 'Analyzing...' : 'Analyze'}
-        </button>
-      </div>
 
-      {analysis && (
-        <div className="results">
-          <h2>{analysis.stock_name} ({analysis.stock_symbol})</h2>
-          
-          <div className="market-data">
-            <h3>Market Data</h3>
-            <div className="data-grid">
-              <div>Price: ₹{analysis.data.current_price}</div>
-              <div>Market Cap: ₹{analysis.data.market_cap}</div>
-              <div>P/E Ratio: {analysis.data.pe_ratio}</div>
-            </div>
-          </div>
+        {loading && <LoadingSpinner />}
 
-          <div className="analysis-section">
-            <h3>AI Analysis</h3>
-            <p>{analysis.analysis}</p>
+        {error && (
+          <ErrorMessage
+            message={error}
+            onRetry={handleRetry}
+          />
+        )}
+
+        {analysis && !loading && (
+          <div className="results-container">
+            <StockSummary
+              stockName={analysis.stock_name}
+              stockSymbol={analysis.stock_symbol}
+              currentPrice={analysis.data.current_price}
+              recommendation={analysis.structured_analysis?.recommendation}
+            />
+
+            <MarketDataCards data={analysis.data} />
+
+            <PriceTrendChart
+              currentPrice={analysis.data.current_price}
+              weekHigh={analysis.data['52_week_high']}
+              weekLow={analysis.data['52_week_low']}
+            />
+
+            <SentimentPanels
+              structuredAnalysis={analysis.structured_analysis}
+            />
           </div>
-        </div>
-      )}
+        )}
+      </main>
+
+      <footer className="app-footer">
+        <p>Disclaimer: This analysis is for informational purposes only. Not financial advice.</p>
+      </footer>
     </div>
   );
 }

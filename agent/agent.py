@@ -102,19 +102,73 @@ def financial_analysis(state: AgentState):
     # Limit the search results to avoid token limits
     search_data = state.get('web_search_results', '')[:5000]
 
-    prompt = f"""Analyze the following information about {state['stock_symobol']} stock:
+    prompt = f"""Analyze the following information about {state['stock_symobol']} stock and return your analysis in JSON format.
 
 Search Results: {search_data}
 
-Provide a concise analysis covering:
-1. Current market position
-2. Recent news impact
-3. Investment recommendation with disclaimer
+Return your analysis in the following JSON format:
+{{
+  "summary": "2-3 sentence overview of the stock's current position and recent performance",
+  "bullish_factors": [
+    "Specific positive factor 1 with data/reasoning",
+    "Specific positive factor 2 with data/reasoning",
+    "Specific positive factor 3 with data/reasoning"
+  ],
+  "bearish_factors": [
+    "Specific negative factor 1 with data/reasoning",
+    "Specific negative factor 2 with data/reasoning",
+    "Specific negative factor 3 with data/reasoning"
+  ],
+  "recommendation": "BUY or HOLD or SELL",
+  "confidence_level": "HIGH or MEDIUM or LOW"
+}}
+
+Ensure each factor is:
+- Specific and data-driven based on the search results
+- Concise (1-2 sentences maximum)
+- Focused on actionable insights
+- Based on recent news, financial metrics, or market trends
+
+Return ONLY the JSON object, no additional text.
 """
+
     analysis = llm.invoke(prompt)
-    return {
-        "financial_analysis": analysis.content
-    }
+
+    # Parse JSON from response
+    try:
+        import json
+        import re
+
+        # Extract JSON from markdown code blocks if present
+        content = analysis.content
+        json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', content, re.DOTALL)
+        if json_match:
+            json_str = json_match.group(1)
+        else:
+            # Try to find JSON object directly
+            json_match = re.search(r'\{.*\}', content, re.DOTALL)
+            json_str = json_match.group(0) if json_match else content
+
+        structured_analysis = json.loads(json_str)
+
+        # Validate structure
+        required_keys = ['summary', 'bullish_factors', 'bearish_factors', 'recommendation']
+        if not all(key in structured_analysis for key in required_keys):
+            raise ValueError("Missing required keys in analysis")
+
+        return {"financial_analysis": json.dumps(structured_analysis)}
+
+    except Exception as e:
+        # Fallback to unstructured analysis
+        print(f"Failed to parse structured analysis: {e}")
+        fallback_analysis = {
+            "summary": analysis.content[:500] if len(analysis.content) > 500 else analysis.content,
+            "bullish_factors": ["Analysis available in summary section"],
+            "bearish_factors": ["Analysis available in summary section"],
+            "recommendation": "HOLD",
+            "confidence_level": "LOW"
+        }
+        return {"financial_analysis": json.dumps(fallback_analysis)}
 
 # Define tools for ToolNode
 tools_list = [web_search(), money_control_scrap, get_financial_summary]

@@ -26,6 +26,7 @@ class StockResponse(BaseModel):
     stock_name: str
     stock_symbol: str
     analysis: str
+    structured_analysis: dict | None = None
     data: dict
 
 @app.post("/analyze", response_model=StockResponse)
@@ -61,10 +62,25 @@ async def analyze_stock(request: StockRequest):
                 "pe_ratio": 'N/A'
             }
 
+        # Parse structured analysis from JSON string
+        structured_analysis = None
+        analysis_text = 'No analysis available'
+        try:
+            import json
+            financial_analysis_str = result.get('financial_analysis', '{}')
+            structured_analysis = json.loads(financial_analysis_str)
+            # Use summary as the main analysis text
+            analysis_text = structured_analysis.get('summary', financial_analysis_str)
+        except Exception as e:
+            print(f"Error parsing structured analysis: {str(e)}")
+            analysis_text = result.get('financial_analysis', 'No analysis available')
+            structured_analysis = None
+
         return StockResponse(
             stock_name=result.get('stock_name', request.stock_name),
             stock_symbol=stock_symbol,
-            analysis=result.get('financial_analysis', 'No analysis available'),
+            analysis=analysis_text,
+            structured_analysis=structured_analysis,
             data=market_data
         )
     except Exception as e:
