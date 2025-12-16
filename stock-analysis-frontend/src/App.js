@@ -25,7 +25,8 @@ function App() {
     setAnalysis(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/analyze", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+      const response = await axios.post(`${apiUrl}/analyze`, {
         stock_name: stockName,
       });
       setAnalysis(response.data);

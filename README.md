@@ -1,10 +1,10 @@
 # Stock Analysis Agent
 
-An AI-powered stock analysis system that leverages LangGraph, OpenAI GPT-4, and web scraping to provide comprehensive stock market insights for Indian markets.
+An AI-powered stock analysis system that leverages LangGraph, Google Gemini, and web scraping to provide comprehensive stock market insights for Indian markets.
 
 ## Features
 
-- **AI-Powered Analysis**: Uses GPT-4 to generate comprehensive stock analysis
+- **AI-Powered Analysis**: Uses Google Gemini to generate comprehensive stock analysis
 - **Multi-Source Data**: Combines web search results and Money Control data
 - **LangGraph Workflow**: Implements a sophisticated agent workflow with tool calling
 - **Real-time Search**: Integrates Tavily search for latest stock news
@@ -15,15 +15,17 @@ An AI-powered stock analysis system that leverages LangGraph, OpenAI GPT-4, and 
 ## Tech Stack
 
 ### Backend
+
 - **LangGraph**: Agent orchestration and workflow management
 - **LangChain**: LLM integration and tool calling
-- **OpenAI GPT-4**: Natural language processing and analysis
+- **Google Gemini**: Natural language processing and analysis
 - **FastAPI**: High-performance API framework
 - **Tavily**: Web search API
 - **BeautifulSoup4**: Web scraping
 - **Python 3.12+**
 
 ### Frontend
+
 - **React 19**: UI framework
 - **Recharts**: Data visualization
 - **Axios**: HTTP client
@@ -53,6 +55,7 @@ Stocks_Agents/
 ## Installation
 
 ### Prerequisites
+
 - Python 3.12+
 - Node.js 14+
 - npm or yarn
@@ -60,23 +63,27 @@ Stocks_Agents/
 ### Backend Setup
 
 1. Clone the repository:
+
 ```bash
 git clone <your-repo-url>
 cd Stocks_Agents
 ```
 
 2. Install Python dependencies:
+
 ```bash
 pip install langchain langchain-openai langchain-community langgraph fastapi uvicorn python-dotenv requests beautifulsoup4
 ```
 
 3. Create `.env` file in the root directory:
+
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
+GOOGLE_API_KEY=your_google_api_key_here
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
 4. Start the FastAPI backend:
+
 ```bash
 cd backend
 uvicorn main:app --reload
@@ -87,12 +94,14 @@ The API will be available at `http://localhost:8000`
 ### Frontend Setup
 
 1. Install frontend dependencies:
+
 ```bash
 cd stock-analysis-frontend
 npm install
 ```
 
 2. Start the React development server:
+
 ```bash
 npm start
 ```
@@ -123,6 +132,7 @@ You'll need to obtain the following API keys:
 **Endpoint**: `POST /analyze`
 
 **Request Body**:
+
 ```json
 {
   "stock_name": "TCS"
@@ -130,6 +140,7 @@ You'll need to obtain the following API keys:
 ```
 
 **Response**:
+
 ```json
 {
   "stock_name": "TCS",
@@ -164,11 +175,13 @@ The LangGraph agent follows this workflow:
 ## Configuration
 
 ### Backend Configuration
+
 - **Host**: `127.0.0.1`
 - **Port**: `8000`
 - **CORS**: Enabled for `http://localhost:3000`
 
 ### Frontend Configuration
+
 - **API Base URL**: `http://localhost:8000`
 - **Port**: `3000`
 
@@ -186,6 +199,7 @@ def new_tool(param: str):
 ```
 
 Then register in `agent/agent.py`:
+
 ```python
 tools_list = [web_search(), money_control_scrap, get_financial_summary, new_tool]
 ```
