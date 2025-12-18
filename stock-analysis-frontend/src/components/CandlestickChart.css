@@ -1,110 +1,98 @@
+/* ============================================
+   Candlestick Chart Component
+   ============================================ */
+
 .candlestick-chart-section {
-  margin-bottom: 2rem;
-  background: white;
-  padding: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-/* Chart Header with Filters */
+/* Chart Header */
 .chart-header {
-  display: flex;
-  justify-content: flex-end;
   margin-bottom: 1.5rem;
 }
 
+/* Period Filters */
 .period-filters {
   display: flex;
   gap: 0.5rem;
-  background: #f9fafb;
-  padding: 0.25rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  flex-wrap: wrap;
 }
 
 .period-button {
   padding: 0.5rem 1rem;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .period-button:hover {
-  color: #374151;
-  background: rgba(102, 126, 234, 0.1);
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
 }
 
 .period-button.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--accent-primary);
   color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  border-color: var(--accent-primary);
 }
 
-/* Custom Tooltip Styling */
+.period-button.active:hover {
+  background: #4338ca;
+}
+
+/* ApexCharts Custom Tooltip */
 .apexcharts-tooltip-custom {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-app) !important;
+  border: 1px solid var(--border-strong) !important;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .tooltip-date {
+  font-size: 0.625rem;
   font-weight: 700;
-  font-size: 0.875rem;
-  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
   margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .tooltip-data {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.875rem;
-  color: #6b7280;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.tooltip-data div {
+  margin: 0.25rem 0;
 }
 
 .tooltip-data strong {
-  color: #1f2937;
-  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Monaco', monospace;
 }
 
-/* ApexCharts Override - Match Design Theme */
-.apexcharts-menu {
-  background: white !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-}
-
-.apexcharts-menu-item:hover {
-  background: #f9fafb !important;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 640px) {
   .candlestick-chart-section {
     padding: 1rem;
   }
 
-  .chart-header {
-    justify-content: center;
-  }
-
-  .period-filters {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
   .period-button {
     padding: 0.4rem 0.75rem;
-    font-size: 0.8rem;
+    font-size: 0.6875rem;
   }
 }

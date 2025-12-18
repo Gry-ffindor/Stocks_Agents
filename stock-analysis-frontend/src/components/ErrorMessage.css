@@ -1,44 +1,74 @@
+/* ============================================
+   Error Message Component
+   ============================================ */
+
 .error-container {
-  background: white;
-  padding: 3rem 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-danger);
+  border-left: 4px solid var(--accent-danger);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #fee2e2;
-  text-align: center;
-  max-width: 500px;
+  padding: 2rem;
   margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error Icon */
 .error-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.3));
 }
 
+/* Error Title */
 .error-title {
-  color: #dc2626;
-  margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
 }
 
+/* Error Message */
 .error-message {
-  color: #6b7280;
-  margin: 0 0 1.5rem 0;
+  font-size: 0.875rem;
   line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem 0;
 }
 
+/* Retry Button */
 .retry-button {
-  padding: 0.75rem 2rem;
-  background: #dc2626;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: var(--accent-danger);
+  border: 1px solid var(--accent-danger);
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .retry-button:hover {
-  background: #b91c1c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  background: var(--accent-danger);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+}
+
+.retry-button:active {
+  transform: translateY(0);
 }

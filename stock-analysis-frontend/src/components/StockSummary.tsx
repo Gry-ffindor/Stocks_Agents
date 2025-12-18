@@ -1,8 +1,14 @@
 import React from 'react';
+import { StockSummaryProps } from '../types';
 import './StockSummary.css';
 
-function StockSummary({ stockName, stockSymbol, currentPrice, recommendation }) {
-  const getRecommendationColor = (rec) => {
+const StockSummary: React.FC<StockSummaryProps> = ({ 
+  stockName, 
+  stockSymbol, 
+  currentPrice, 
+  recommendation 
+}) => {
+  const getRecommendationColor = (rec?: 'BUY' | 'HOLD' | 'SELL'): string => {
     switch (rec?.toUpperCase()) {
       case 'BUY': return 'var(--bullish)';
       case 'SELL': return 'var(--bearish)';
@@ -30,6 +36,6 @@ function StockSummary({ stockName, stockSymbol, currentPrice, recommendation }) 
       )}
     </div>
   );
-}
+};
 
 export default StockSummary;

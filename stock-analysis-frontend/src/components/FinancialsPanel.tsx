@@ -1,31 +1,45 @@
 import { useState } from "react";
+import { FinancialsPanelProps } from "../types";
 import "./FinancialsPanel.css";
 
-function FinancialsPanel({ financials }) {
-  const [activeTab, setActiveTab] = useState("income_statement");
+type TabId = "income_statement" | "balance_sheet" | "cash_flow";
+
+interface Tab {
+  id: TabId;
+  label: string;
+}
+
+interface TableData {
+  dates: string[];
+  metrics: string[];
+  data: Record<string, any>;
+}
+
+const FinancialsPanel: React.FC<FinancialsPanelProps> = ({ financials }) => {
+  const [activeTab, setActiveTab] = useState<TabId>("income_statement");
 
   if (!financials || Object.keys(financials).length === 0) {
     return null;
   }
 
-  const tabs = [
+  const tabs: Tab[] = [
     { id: "income_statement", label: "Income Statement" },
     { id: "balance_sheet", label: "Balance Sheet" },
     { id: "cash_flow", label: "Cash Flow" },
   ];
 
   // Helper to transform data for the table
-  const getTableData = () => {
+  const getTableData = (): TableData => {
     const currentData = financials[activeTab];
-    if (!currentData) return { dates: [], metrics: [] };
+    if (!currentData) return { dates: [], metrics: [], data: {} };
 
     // Get all dates and sort them (newest first)
     const dates = Object.keys(currentData).sort(
-      (a, b) => new Date(b) - new Date(a)
+      (a, b) => new Date(b).getTime() - new Date(a).getTime()
     );
 
     // Get all unique metric names
-    const allMetrics = new Set();
+    const allMetrics = new Set<string>();
     dates.forEach((date) => {
       Object.keys(currentData[date] || {}).forEach((metric) =>
         allMetrics.add(metric)
@@ -38,9 +52,9 @@ function FinancialsPanel({ financials }) {
 
   const { dates, metrics, data } = getTableData();
 
-  const formatNumber = (num) => {
+  const formatNumber = (num: any): string => {
     if (num === null || num === undefined) return "-";
-    if (typeof num !== "number") return num;
+    if (typeof num !== "number") return String(num);
 
     // Format large numbers (Crores)
     if (Math.abs(num) >= 10000000) {
@@ -92,6 +106,6 @@ function FinancialsPanel({ financials }) {
       </div>
     </div>
   );
-}
+};
 
 export default FinancialsPanel;

@@ -1,7 +1,8 @@
 import React from 'react';
+import { ErrorMessageProps } from '../types';
 import './ErrorMessage.css';
 
-function ErrorMessage({ message, onRetry }) {
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry }) => {
   return (
     <div className="error-container">
       <div className="error-icon">⚠️</div>
@@ -14,6 +15,6 @@ function ErrorMessage({ message, onRetry }) {
       )}
     </div>
   );
-}
+};
 
 export default ErrorMessage;

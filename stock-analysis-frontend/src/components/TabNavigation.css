@@ -1,0 +1,88 @@
+/* ============================================
+   Tab Navigation Component
+   ============================================ */
+
+.tab-navigation {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-subtle);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.tab-container {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tab-button:hover {
+  color: var(--text-primary);
+  background: rgba(79, 70, 229, 0.05);
+}
+
+.tab-button.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.tab-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+
+.tab-label {
+  font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tab-navigation {
+    padding: 0 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tab-navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-container {
+    height: 44px;
+    gap: 0.25rem;
+  }
+
+  .tab-button {
+    padding: 0 1rem;
+    font-size: 0.6875rem;
+    white-space: nowrap;
+  }
+
+  .tab-icon {
+    width: 12px;
+    height: 12px;
+  }
+}

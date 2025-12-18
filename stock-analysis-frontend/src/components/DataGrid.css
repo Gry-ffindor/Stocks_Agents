@@ -1,0 +1,179 @@
+/* ============================================
+   Data Grid Component - Modern Card Style
+   ============================================ */
+
+.data-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 0;
+}
+
+/* Card Styling */
+.data-grid-card {
+  background: rgba(17, 24, 39, 0.3);
+  border: 1px solid rgba(55, 65, 81, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.data-grid-card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+/* Section Header */
+.data-grid-section-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem 0;
+}
+
+/* Subsection (for OWNERSHIP) */
+.data-grid-subsection {
+  padding: 0.75rem 0.75rem 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(31, 41, 55, 1);
+}
+
+.data-grid-subsection-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+/* Data Row */
+.data-grid-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid rgba(31, 41, 55, 1);
+  transition: background-color 0.2s ease;
+  min-height: 44px;
+}
+
+.data-grid-row:last-child {
+  border-bottom: none;
+}
+
+.data-grid-row:hover {
+  background-color: rgba(31, 41, 55, 0.3);
+}
+
+/* Label Container */
+.data-grid-label-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.data-grid-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  transition: color 0.2s ease;
+}
+
+.data-grid-row:hover .data-grid-label {
+  color: var(--text-primary);
+}
+
+.data-grid-label.highlight {
+  color: var(--text-primary);
+}
+
+.data-grid-sublabel {
+  font-size: 0.625rem;
+  color: var(--text-tertiary);
+  opacity: 0.7;
+}
+
+/* Value */
+.data-grid-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: "SF Mono", "Monaco", monospace;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.data-grid-value.highlight {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+/* Company Info Box */
+.company-info-box {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(17, 24, 39, 0.5);
+  border: 1px solid rgba(31, 41, 55, 1);
+  border-radius: 0.5rem;
+}
+
+.company-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.375rem 0;
+}
+
+.company-info-row:not(:last-child) {
+  border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+}
+
+.info-label {
+  font-size: 0.625rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.info-value {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  text-align: right;
+  font-weight: 500;
+}
+
+.info-value.earnings-highlight {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .data-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .data-grid-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .data-grid-row {
+    padding: 0.5rem 0.625rem;
+  }
+
+  .data-grid-label {
+    font-size: 0.6875rem;
+  }
+
+  .data-grid-value {
+    font-size: 0.8125rem;
+  }
+}

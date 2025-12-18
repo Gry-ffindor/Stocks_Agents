@@ -1,7 +1,7 @@
 import React from 'react';
 import './LoadingSpinner.css';
 
-function LoadingSpinner() {
+const LoadingSpinner: React.FC = () => {
   return (
     <div className="loading-container">
       <div className="loading-spinner">
@@ -12,6 +12,6 @@ function LoadingSpinner() {
       <p className="loading-text">Analyzing stock data...</p>
     </div>
   );
-}
+};
 
 export default LoadingSpinner;

@@ -1,8 +1,9 @@
 import React from 'react';
+import { MarketDataCardsProps, DataCard } from '../types';
 import './MarketDataCards.css';
 
-function MarketDataCards({ data }) {
-  const formatValue = (value, prefix = '', suffix = '') => {
+const MarketDataCards: React.FC<MarketDataCardsProps> = ({ data }) => {
+  const formatValue = (value: number | string | null | undefined, prefix: string = '', suffix: string = ''): string => {
     if (!value || value === 'N/A' || value === null || value === undefined) {
       return 'N/A';
     }
@@ -17,10 +18,10 @@ function MarketDataCards({ data }) {
       return `${prefix}${value.toLocaleString('en-IN')}${suffix}`;
     }
 
-    return value;
+    return String(value);
   };
 
-  const cards = [
+  const cards: DataCard[] = [
     { label: 'Market Cap', value: formatValue(data.market_cap, '₹') },
     { label: 'P/E Ratio', value: formatValue(data.pe_ratio) },
     { label: '52W High', value: formatValue(data['52_week_high'], '₹') },
@@ -41,6 +42,6 @@ function MarketDataCards({ data }) {
       </div>
     </div>
   );
-}
+};
 
 export default MarketDataCards;

@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { CandlestickChartProps, TimePeriod, PeriodOption } from '../types';
 import './CandlestickChart.css';
 
-function CandlestickChart({ historicalData, stockSymbol }) {
-  const [selectedPeriod, setSelectedPeriod] = useState('3M');
+interface CandleData {
+  x: Date;
+  y: [number, number, number, number]; // [open, high, low, close]
+}
+
+const CandlestickChart: React.FC<CandlestickChartProps> = ({ historicalData, stockSymbol }) => {
+  const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('3M');
 
   // Return null if no data
   if (!historicalData || historicalData.length === 0) {
@@ -13,7 +19,7 @@ function CandlestickChart({ historicalData, stockSymbol }) {
   // Filter data based on selected period
   const getFilteredData = () => {
     const now = new Date();
-    let daysToShow;
+    let daysToShow: number;
 
     switch (selectedPeriod) {
       case '1D':
@@ -47,12 +53,23 @@ function CandlestickChart({ historicalData, stockSymbol }) {
   const filteredData = getFilteredData();
 
   // Transform data to ApexCharts format
-  const seriesData = filteredData.map(candle => ({
+  const seriesData: CandleData[] = filteredData.map(candle => ({
     x: new Date(candle.date),
     y: [candle.open, candle.high, candle.low, candle.close]
   }));
 
-  const options = {
+  const getPeriodLabel = (period: TimePeriod): string => {
+    switch (period) {
+      case '1D': return '1 Day';
+      case '1M': return '1 Month';
+      case '3M': return '3 Month';
+      case '6M': return '6 Month';
+      case '1Y': return '1 Year';
+      default: return '3 Month';
+    }
+  };
+
+  const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'candlestick',
       height: 400,
@@ -70,19 +87,22 @@ function CandlestickChart({ historicalData, stockSymbol }) {
       background: 'transparent'
     },
     title: {
-      text: `${stockSymbol} - ${selectedPeriod === '1D' ? '1 Day' : selectedPeriod === '1M' ? '1 Month' : selectedPeriod === '3M' ? '3 Month' : selectedPeriod === '6M' ? '6 Month' : '1 Year'} Price Chart`,
+      text: `${stockSymbol} - ${getPeriodLabel(selectedPeriod)} Price Chart`,
       align: 'left',
       style: {
-        fontSize: '18px',
-        fontWeight: 700,
-        color: '#1f2937'
+        fontSize: '14px',
+        fontWeight: '700',
+        color: '#f3f4f6',
+        fontFamily: 'Inter, sans-serif'
       }
     },
     xaxis: {
       type: 'datetime',
       labels: {
         style: {
-          colors: '#6b7280'
+          colors: '#9ca3af',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '10px'
         }
       }
     },
@@ -91,9 +111,11 @@ function CandlestickChart({ historicalData, stockSymbol }) {
         enabled: true
       },
       labels: {
-        formatter: (value) => `₹${value.toFixed(2)}`,
+        formatter: (value: number) => `₹${value.toFixed(2)}`,
         style: {
-          colors: '#6b7280'
+          colors: '#9ca3af',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '10px'
         }
       }
     },
@@ -107,7 +129,7 @@ function CandlestickChart({ historicalData, stockSymbol }) {
     },
     tooltip: {
       theme: 'light',
-      custom: function({seriesIndex, dataPointIndex, w}) {
+      custom: function({ seriesIndex, dataPointIndex, w }: any) {
         const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
         const date = new Date(data.x).toLocaleDateString('en-IN');
         const open = data.y[0];
@@ -127,17 +149,17 @@ function CandlestickChart({ historicalData, stockSymbol }) {
       }
     },
     grid: {
-      borderColor: '#e5e7eb',
+      borderColor: '#1f2937',
       strokeDashArray: 3
     }
   };
 
-  const series = [{
+  const series: ApexAxisChartSeries = [{
     name: 'Price',
     data: seriesData
   }];
 
-  const periods = [
+  const periods: PeriodOption[] = [
     { value: '1D', label: '1 Day' },
     { value: '1M', label: '1 Month' },
     { value: '3M', label: '3 Months' },
@@ -168,6 +190,6 @@ function CandlestickChart({ historicalData, stockSymbol }) {
       />
     </div>
   );
-}
+};
 
 export default CandlestickChart;

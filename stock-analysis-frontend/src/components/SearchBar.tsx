@@ -1,8 +1,9 @@
 import React from 'react';
+import { SearchBarProps } from '../types';
 import './SearchBar.css';
 
-function SearchBar({ stockName, setStockName, onSearch, loading }) {
-  const handleKeyPress = (e) => {
+const SearchBar: React.FC<SearchBarProps> = ({ stockName, setStockName, onSearch, loading }) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && stockName.trim()) {
       onSearch();
     }
@@ -37,6 +38,6 @@ function SearchBar({ stockName, setStockName, onSearch, loading }) {
       </div>
     </div>
   );
-}
+};
 
 export default SearchBar;

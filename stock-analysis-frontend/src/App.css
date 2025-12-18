@@ -1,170 +1,227 @@
-/* CSS Variables */
-:root {
-  --bullish: #10b981;
-  --bearish: #ef4444;
-  --neutral: #f59e0b;
-  --primary: #667eea;
-  --primary-dark: #764ba2;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --bg-light: #f9fafb;
-  --border: #e5e7eb;
-}
+/* ============================================
+   TradeMind AI Trading Platform
+   Main Application Styles
+   ============================================ */
 
-/* Global Resets */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
+.trading-platform {
   min-height: 100vh;
+  background: var(--bg-app);
+  display: flex;
+  flex-direction: column;
 }
 
-/* App Container */
-.app {
-  min-height: 100vh;
-  position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Platform Content */
+.platform-content {
+  flex: 1;
+  background: var(--bg-app);
 }
 
-/* Background Gradient */
-.app-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 400px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  z-index: -1;
+/* Chart Section */
+.chart-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem 1rem;
 }
 
-.app-background::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background: linear-gradient(to bottom, transparent, var(--bg-light));
+/* Metric Cards Section */
+.metric-cards-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background: var(--bg-app);
 }
 
-/* Header */
-.app-header {
-  text-align: center;
-  padding: 3rem 1rem 2rem;
-  color: white;
+/* Tab Content */
+.tab-content {
+  background: var(--bg-app);
+  min-height: 400px;
 }
 
-.app-title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 0 0 0.5rem 0;
+/* Overview Tab */
+.overview-tab {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+  padding-top: 2rem; /* This line is added based on the instruction's context */
+}
+
+/* Overview-Grid styles */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: stretch; /* Make both items same height */
+}
+
+@media (max-width: 1200px) {
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sentiment-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+/* Sentiments Tab */
+.sentiments-tab {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Financials Tab */
+.financials-tab {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Technicals Tab */
+.technicals-tab {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Placeholder Tabs */
+.placeholder-tab {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  min-height: 400px;
+  padding: 4rem 2rem;
 }
 
-.title-icon {
-  font-size: 3rem;
-  animation: float 3s ease-in-out infinite;
+.placeholder-content {
+  text-align: center;
+  max-width: 500px;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.placeholder-content h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
 }
 
-.app-subtitle {
-  font-size: 1.25rem;
+.placeholder-content p {
+  font-size: 1rem;
+  color: var(--text-secondary);
   margin: 0;
-  opacity: 0.95;
-  font-weight: 400;
 }
 
-/* Main Content */
-.app-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  position: relative;
-  z-index: 1;
+/* Welcome Screen */
+.welcome-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 4rem 2rem;
 }
 
-.results-container {
-  animation: fadeIn 0.5s ease-in;
+.welcome-content {
+  text-align: center;
+  max-width: 600px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.welcome-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.welcome-content p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0 0 2rem 0;
+}
+
+.example-symbols {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.example-symbols span {
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: "SF Mono", "Monaco", monospace;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.example-symbols span:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
 /* Footer */
-.app-footer {
+.platform-footer {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.5rem;
   text-align: center;
-  padding: 2rem 1rem;
-  color: var(--text-light);
-  font-size: 0.875rem;
-  background: var(--bg-light);
-  margin-top: 4rem;
 }
 
-.app-footer p {
+.platform-footer p {
   margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .app-title {
-    font-size: 2rem;
+/* Loading & Error States */
+.platform-content > .loading-container,
+.platform-content > .error-container {
+  margin: 4rem 2rem;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .chart-section,
+  .financials-tab,
+  .sentiment-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chart-section,
+  .financials-tab,
+  .sentiment-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .title-icon {
-    font-size: 2rem;
+  .welcome-content h2 {
+    font-size: 1.5rem;
   }
 
-  .app-subtitle {
+  .welcome-content p {
     font-size: 1rem;
   }
 
-  .app-header {
-    padding: 2rem 1rem 1.5rem;
-  }
-
-  .app-content {
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-title {
-    font-size: 1.75rem;
+  .example-symbols {
     flex-direction: column;
-    gap: 0.5rem;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
   }
-}
 
-/* Utility Classes */
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 1.5rem;
-}
-
-/* Smooth Transitions */
-button, .data-card, .sentiment-panel {
-  transition: all 0.3s ease;
+  .example-symbols span {
+    width: 100%;
+    text-align: center;
+  }
 }

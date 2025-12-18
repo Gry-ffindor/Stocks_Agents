@@ -1,31 +1,61 @@
+/* ============================================
+   Price Trend Chart Component
+   ============================================ */
+
 .price-chart-section {
-  margin-bottom: 2rem;
-  background: white;
-  padding: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* Chart Container */
 .chart-container {
-  margin-top: 1rem;
+  width: 100%;
+  overflow: hidden;
 }
 
+/* Recharts Custom Tooltip */
 .custom-tooltip {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 0.75rem 1rem;
+  background: var(--bg-app);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
-  color: white;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .tooltip-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
   margin: 0 0 0.25rem 0;
-  font-size: 0.875rem;
-  opacity: 0.9;
 }
 
 .tooltip-value {
-  margin: 0;
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Monaco', monospace;
+  margin: 0;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 640px) {
+  .price-chart-section {
+    padding: 1rem;
+  }
 }
